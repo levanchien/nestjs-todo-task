@@ -1,4 +1,4 @@
-import { IsEmail, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { IsDefined, IsEmail, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class CreateUserDto {
 
@@ -6,8 +6,8 @@ export class CreateUserDto {
     email: string;
 
     @IsString()
-    @MaxLength(8)
-    @MinLength(32)
+    @MaxLength(32)
+    @MinLength(8)
     @Matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,64}$/)
     password: string;
 
@@ -15,6 +15,7 @@ export class CreateUserDto {
     @MaxLength(64)
     @MinLength(1)
     @Matches(/^[a-zA-Z][a-zA-Z ]{0,63}$/)
+    @IsDefined()
     firstName: string;
 
     
@@ -22,5 +23,6 @@ export class CreateUserDto {
     @MaxLength(64)
     @MinLength(1)
     @Matches(/^[a-zA-Z][a-zA-Z ]{0,63}$/)
+    @IsDefined()
     lastName: string;
 }

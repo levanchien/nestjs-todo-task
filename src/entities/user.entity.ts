@@ -1,4 +1,5 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
+const bcrypt = require('bcrypt');
 
 @Table({
     tableName: 'Users'
@@ -26,4 +27,14 @@ export class UserEntity extends Model<UserEntity> {
 
     @Column({ type: DataType.DATE })
     dateCreated: string;
+
+    hashPassword(rawPassword) {
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        return bcrypt.hashSync(rawPassword, salt);
+    }
+
+    comparePassword(rawPassword, hash) {
+        return bcrypt.compareSync(rawPassword, hash);
+    }
 }
