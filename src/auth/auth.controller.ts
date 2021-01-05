@@ -7,9 +7,7 @@ import { LocalAuthGuard } from './local-auth.guard';
 @Controller('auth')
 export class AuthController {
     
-    constructor(private authService: AuthService) {
-
-    }
+    constructor(private authService: AuthService) {}
 
     @Post('register')
     register(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {

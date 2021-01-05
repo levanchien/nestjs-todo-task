@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';;
 import { ApiException } from 'src/exception/api-exception.exception';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
@@ -16,7 +16,12 @@ export class AuthService {
         if (!findUser.comparePassword(password)) {
             throw new ApiException({ property: 'password', value: password, messages: ['Wrong password'] }, HttpStatus.UNAUTHORIZED);
         }
-        return findUser;
+
+        const plainUser: any = findUser.get({ plain: true });
+        
+        delete plainUser.password;
+
+        return plainUser;
     }
 
     async register(createUserDto: CreateUserDto) {

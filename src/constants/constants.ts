@@ -1,0 +1,1 @@
+export const APP_SECRET = 'the fox jump over lazy dog';
