@@ -3,7 +3,7 @@ import { Column, DataType, Model, Table } from 'sequelize-typescript';
 @Table({
     tableName: 'Tasks'
 })
-export class Task extends Model<Task> {
+export class TaskEntity extends Model<TaskEntity> {
     
     @Column({
         autoIncrement: true,

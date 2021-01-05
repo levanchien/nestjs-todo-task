@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { Task } from './entities/task.entity';
-import { User } from './entities/user.entity';
+import { ENTITIES } from './entities';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -20,11 +20,9 @@ import { User } from './entities/user.entity';
       },
       autoLoadModels: true,
       synchronize: true,
-      models: [
-        User,
-        Task
-      ]
-    })
+      models: ENTITIES
+    }),
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
