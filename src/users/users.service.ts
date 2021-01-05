@@ -14,6 +14,8 @@ export class UsersService {
     }
 
     create(createUserDto: CreateUserDto) {
+        createUserDto.password = UserEntity.hashPassword(createUserDto.password);
+        createUserDto['dateCreated'] = new Date();
         return this.usersRepository.create(createUserDto);
     }
 

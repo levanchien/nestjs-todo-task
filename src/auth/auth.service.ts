@@ -11,10 +11,10 @@ export class AuthService {
     async validate(email: string, password: string) {
         const findUser = await this.usersService.findOneByEmail(email);
         if (!findUser) {
-            throw new UnauthorizedException('User is not exists');
+            throw new ApiException({ property: 'email', value: email, messages: ['Email is not exists'] }, HttpStatus.UNAUTHORIZED);
         }
         if (!findUser.comparePassword(password)) {
-            throw new UnauthorizedException('Wrong password');
+            throw new ApiException({ property: 'password', value: password, messages: ['Wrong password'] }, HttpStatus.UNAUTHORIZED);
         }
         return findUser;
     }

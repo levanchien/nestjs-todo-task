@@ -26,9 +26,9 @@ export class UserEntity extends Model<UserEntity> {
     lastName: string;
 
     @Column({ type: DataType.DATE })
-    dateCreated: string;
+    dateCreated: any;
 
-    hashPassword(rawPassword) {
+    static hashPassword(rawPassword) {
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
         return bcrypt.hashSync(rawPassword, salt);
