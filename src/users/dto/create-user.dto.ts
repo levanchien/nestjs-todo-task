@@ -6,23 +6,32 @@ export class CreateUserDto {
     email: string;
 
     @IsString()
-    @MaxLength(32)
-    @MinLength(8)
-    @Matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,64}$/)
+    @Matches(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,64}$/,
+        {
+            message: 'Password is too weak. Please choose other. '
+        }
+    )
     password: string;
 
     @IsString()
-    @MaxLength(64)
-    @MinLength(1)
-    @Matches(/^[a-zA-Z][a-zA-Z ]{0,63}$/)
     @IsDefined()
+    @Matches(
+        /^[a-zA-Z][a-zA-Z ]{0,63}$/,
+        {
+            message: 'First name is invalid'
+        }
+    )
     firstName: string;
 
     
     @IsString()
-    @MaxLength(64)
-    @MinLength(1)
-    @Matches(/^[a-zA-Z][a-zA-Z ]{0,63}$/)
     @IsDefined()
+    @Matches(
+        /^[a-zA-Z][a-zA-Z ]{0,63}$/,
+        {
+            message: 'Last name is invalid'
+        }
+    )
     lastName: string;
 }

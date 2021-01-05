@@ -13,7 +13,7 @@ export class AuthService {
         if (!findUser) {
             throw new UnauthorizedException('User is not exists');
         }
-        if (!findUser.comparePassword(password, findUser.password)) {
+        if (!findUser.comparePassword(password)) {
             throw new UnauthorizedException('Wrong password');
         }
         return findUser;

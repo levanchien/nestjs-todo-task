@@ -34,7 +34,7 @@ export class UserEntity extends Model<UserEntity> {
         return bcrypt.hashSync(rawPassword, salt);
     }
 
-    comparePassword(rawPassword, hash) {
-        return bcrypt.compareSync(rawPassword, hash);
+    comparePassword(rawPassword: string) {
+        return bcrypt.compareSync(rawPassword, this.password);
     }
 }
