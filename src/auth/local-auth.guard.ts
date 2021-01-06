@@ -10,3 +10,7 @@ export class LocalAuthGuard extends AuthGuard('local') {
         return result;
     }
 }
+
+
+@Injectable()
+export class LocalAuthGuardForJWT extends AuthGuard('local') {}

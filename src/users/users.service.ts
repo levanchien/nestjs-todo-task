@@ -34,4 +34,10 @@ export class UsersService {
             }
         });
     }
+
+    findAll() {
+        return this.usersRepository.findAll({
+            attributes: ['id', 'email', 'firstName', 'lastName', 'dateCreated']
+        });
+    }
 }

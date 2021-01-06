@@ -2,7 +2,7 @@ import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard, LocalAuthGuardForJWT } from './local-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -18,5 +18,11 @@ export class AuthController {
     @Post('login')
     login(@Request() request) {
         return request.user;
+    }
+
+    @UseGuards(LocalAuthGuardForJWT)
+    @Post('jwt-login')
+    jwtLogin(@Request() request) {
+        return this.authService.generateJwt(request.user);
     }
 }

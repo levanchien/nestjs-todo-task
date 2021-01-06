@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';;
+import { HttpStatus, Injectable } from '@nestjs/common'; import { JwtService } from '@nestjs/jwt';
 import { ApiException } from 'src/exception/api-exception.exception';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UsersService } from 'src/users/users.service';
@@ -6,7 +6,10 @@ import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class AuthService {
 
-    constructor(private usersService: UsersService) {}
+    constructor(
+        private usersService: UsersService,
+        private jwtService: JwtService
+    ) { }
 
     async validate(email: string, password: string) {
         const findUser = await this.usersService.findOneByEmail(email);
@@ -18,10 +21,18 @@ export class AuthService {
         }
 
         const plainUser: any = findUser.get({ plain: true });
-        
+
         delete plainUser.password;
 
         return plainUser;
+    }
+
+    async generateJwt(user) {
+        const payload = { username: user.email, sub: user.id };
+        
+        return {
+            access_token: this.jwtService.sign(payload)
+        }
     }
 
     async register(createUserDto: CreateUserDto) {
