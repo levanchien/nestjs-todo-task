@@ -40,4 +40,13 @@ export class UsersService {
             attributes: ['id', 'email', 'firstName', 'lastName', 'dateCreated']
         });
     }
+
+    findByToken(token: string) {
+        return this.usersRepository.findOne({
+            attributes: ['id', 'email', 'firstName', 'lastName', 'dateCreated'],
+            where: {
+                apiToken: token
+            }
+        });
+    }
 }

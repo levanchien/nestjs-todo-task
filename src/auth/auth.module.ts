@@ -8,13 +8,15 @@ import { SessionSerializer } from './session.serializer';
 import { JwtModule } from '@nestjs/jwt';
 import { JWT } from 'src/constants/constants';
 import { JwtStategy } from './jwt.strategy';
+import { ApiTokenStategy } from './api-token.strategy';
 
 @Module({
   providers: [
     AuthService,
     LocalStrategy,
     SessionSerializer,
-    JwtStategy
+    JwtStategy,
+    ApiTokenStategy
   ],
   controllers: [AuthController],
   imports: [

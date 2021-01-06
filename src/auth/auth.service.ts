@@ -27,6 +27,14 @@ export class AuthService {
         return plainUser;
     }
 
+    async validateToken(token: string) {
+        const findUser = await this.usersService.findByToken(token);
+        if (!findUser) {
+            throw new ApiException({ property: 'token', value: token, messages: ['Token is invalid'] }, HttpStatus.UNAUTHORIZED);
+        }
+        return findUser;
+    }
+
     async generateJwt(user) {
         const payload = { username: user.email, sub: user.id };
         

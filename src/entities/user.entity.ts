@@ -27,6 +27,9 @@ export class UserEntity extends Model<UserEntity> {
 
     @Column({ type: DataType.DATE })
     dateCreated: any;
+    
+    @Column({ type: DataType.STRING })
+    apiToken: string;
 
     static hashPassword(rawPassword) {
         const saltRounds = 10;
