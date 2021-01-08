@@ -1,5 +1,6 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import * as winston from "winston";
+import * as moment from 'moment';
 
 const { timestamp } = winston.format;
 
@@ -15,7 +16,9 @@ export class AppLoggerService implements LoggerService {
     private readonly logger = winston.createLogger({
         level: 'http',
         format: winston.format.combine(
-            timestamp(),
+            timestamp({
+                format: 'DD-MM-YYYY HH:mm:ss'
+            }),
             this.format
         ),
         transports: [
@@ -26,8 +29,8 @@ export class AppLoggerService implements LoggerService {
         ]
     });
 
-    error(message: string, trace: string) {        
-        this.logger.error(message, trace);
+    error(exception: any) {        
+        this.logger.error(`${JSON.stringify(exception.message)} - ${exception.stack}`);
     }
 
     log(message: any, context?: string): void {

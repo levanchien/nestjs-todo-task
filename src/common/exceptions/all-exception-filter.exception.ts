@@ -34,8 +34,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 messages: [exception.message],
             });
         }
-
-        this.logger.error(`${JSON.stringify(error)} - ${exception.stack}`);
+        
+        this.logger.error(exception);
 
         response.status(status).json({
             statusCode: status,
