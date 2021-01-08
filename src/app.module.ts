@@ -2,17 +2,17 @@ import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './core/users/users.module';
+import { AuthModule } from './core/auth/auth.module';
 import { databaseConfig } from './config/database.config';
-import { AppApiModule } from './app-api/app-api.module';
+import { TaskModule } from './core/task/task.module';
 
 @Module({
   imports: [
     SequelizeModule.forRoot(databaseConfig),
     UsersModule,
     AuthModule,
-    AppApiModule
+    TaskModule
   ],
   controllers: [AppController],
   providers: [AppService],

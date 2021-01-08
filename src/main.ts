@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { loadConfig } from './config';
-import { AllExceptionsFilter } from './exception/all-exception-filter.exception';
+import { AllExceptionsFilter } from './common/exceptions/all-exception-filter.exception';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { APP_SECRET } from './constants/constants';

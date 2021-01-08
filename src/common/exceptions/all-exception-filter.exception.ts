@@ -5,7 +5,7 @@ import {
     HttpException,
     HttpStatus,
 } from '@nestjs/common';
-import { ErrorResponse } from 'src/pipes/validation.pipe';
+import { ErrorResponse } from 'src/common/pipes/validation.pipe';
 import { ApiException } from './api-exception.exception';
 
 @Catch()

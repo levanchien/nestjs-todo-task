@@ -1,7 +1,7 @@
 import { PipeTransform, Injectable, ArgumentMetadata, HttpStatus } from '@nestjs/common';
 import { validate, ValidationError } from 'class-validator';
 import { plainToClass } from 'class-transformer';
-import { ApiException } from 'src/exception/api-exception.exception';
+import { ApiException } from 'src/common/exceptions/api-exception.exception';
 
 export interface ErrorResponse {
   value: string;

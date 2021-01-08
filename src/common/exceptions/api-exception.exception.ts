@@ -1,5 +1,5 @@
 import { HttpException } from "@nestjs/common";
-import { ErrorResponse } from "src/pipes/validation.pipe";
+import { ErrorResponse } from "src/common/pipes/validation.pipe";
 
 export class ApiException extends HttpException {
     private error: ErrorResponse[];

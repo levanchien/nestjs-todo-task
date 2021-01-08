@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
-import { ValidationPipe } from 'src/pipes/validation.pipe';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { ValidationPipe } from 'src/common/pipes/validation.pipe';
+import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard, LocalAuthGuardForJWT } from './local-auth.guard';
 

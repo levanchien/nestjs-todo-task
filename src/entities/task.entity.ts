@@ -12,6 +12,9 @@ export class TaskEntity extends Model<TaskEntity> {
     })
     id: number;
 
+    @Column({ type: DataType.INTEGER })
+    userId: number;
+
     @Column({ type: DataType.STRING })
     title: string;
 
