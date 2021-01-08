@@ -14,7 +14,7 @@ export class ParsePageQuery implements PipeTransform<any, PageQuery> {
     if (!query || _.isEmpty(query)) {
       return null;
     }
-    
+
     query.per_page = _.parseInt(query.per_page);
     query.page = _.parseInt(query.page);
 
