@@ -6,13 +6,15 @@ import { UsersModule } from './core/users/users.module';
 import { AuthModule } from './core/auth/auth.module';
 import { databaseConfig } from './config/database.config';
 import { TaskModule } from './core/task/task.module';
+import { MyLoggerModule } from './core/my-logger/my-logger.module';
 
 @Module({
   imports: [
     SequelizeModule.forRoot(databaseConfig),
     UsersModule,
     AuthModule,
-    TaskModule
+    TaskModule,
+    // MyLoggerModule
   ],
   controllers: [AppController],
   providers: [AppService],

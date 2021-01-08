@@ -5,6 +5,7 @@ import * as _ from "lodash";
 
 @Injectable()
 export class ParsePageQuery implements PipeTransform<any, PageQuery> {
+
   transform(query: any, metadata: ArgumentMetadata): PageQuery {
     return this.handlePageQuery(query);
   }

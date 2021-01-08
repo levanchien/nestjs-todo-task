@@ -6,10 +6,14 @@ import {
     HttpStatus,
 } from '@nestjs/common';
 import { ErrorResponse } from 'src/common/pipes/validation.pipe';
+import { AppLoggerService } from 'src/core/my-logger/my-logger.service';
 import { ApiException } from './api-exception.exception';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
+
+    private readonly logger = AppLoggerService.getInstance();
+
     catch(exception: any, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
@@ -30,6 +34,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 messages: [exception.message],
             });
         }
+
+        this.logger.error(`${JSON.stringify(error)} - ${exception.stack}`);
 
         response.status(status).json({
             statusCode: status,

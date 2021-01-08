@@ -5,9 +5,12 @@ import { AllExceptionsFilter } from './common/exceptions/all-exception-filter.ex
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { APP_SECRET } from './constants/constants';
+import { AppLoggerService } from './core/my-logger/my-logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: false
+  });
 
   loadConfig();
 
@@ -20,6 +23,12 @@ async function bootstrap() {
   app.use(passport.session());
 
   app.useGlobalFilters(new AllExceptionsFilter());
+
+  /* Dependencies Injection */
+  /* Have to import MyLoggerModule, so NestJs create instance  */
+  /* app.useLogger(app.get(MyLoggerService)); */
+
+  app.useLogger(AppLoggerService.getInstance());
 
   await app.listen(3000);
 }
