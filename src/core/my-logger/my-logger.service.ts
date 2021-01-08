@@ -23,9 +23,21 @@ export class AppLoggerService implements LoggerService {
         ),
         transports: [
             new winston.transports.Console(),
-            new winston.transports.File({ filename: 'app.log', level: 'info' }),
-            new winston.transports.File({ filename: 'http.log', level: 'http' }),
-            new winston.transports.File({ filename: 'error.log', level: 'error' })
+            new winston.transports.File({
+                filename: `app-${moment().format('DD-MM-YYYY')}.log`,
+                level: 'info',
+                maxsize: 10000000
+            }),
+            new winston.transports.File({
+                filename: `http-${moment().format('DD-MM-YYYY')}.log`,
+                level: 'http',
+                maxsize: 10000000
+            }),
+            new winston.transports.File({
+                filename: `error-${moment().format('DD-MM-YYYY')}.log`,
+                level: 'error',
+                maxsize: 10000000
+            })
         ]
     });
 
