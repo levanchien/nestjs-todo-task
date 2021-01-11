@@ -4,17 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './core/users/users.module';
 import { AuthModule } from './core/auth/auth.module';
-import { databaseConfig } from './config/database.config';
+import {dbConfiguration}  from './config/database.config';
 import { TaskModule } from './core/task/task.module';
-import { MyLoggerModule } from './core/my-logger/my-logger.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot(databaseConfig),
+    ConfigModule.forRoot(),
+    SequelizeModule.forRoot(dbConfiguration()),
     UsersModule,
     AuthModule,
-    TaskModule,
-    // MyLoggerModule
+    TaskModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/sequelize';
 import { UserEntity } from '../../entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -9,8 +10,10 @@ export class UsersService {
     
     constructor(
         @InjectModel(UserEntity)
-        private usersRepository: typeof UserEntity) {
-
+        private usersRepository: typeof UserEntity,
+        private configService: ConfigService) {
+            console.log(this.configService.get('APP_PORT'));
+            
     }
 
     create(createUserDto: CreateUserDto) {

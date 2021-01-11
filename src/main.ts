@@ -1,19 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { loadConfig } from './config';
 import { AllExceptionsFilter } from './common/exceptions/all-exception-filter.exception';
 import * as session from 'express-session';
 import * as passport from 'passport';
 import { APP_SECRET } from './constants/constants';
 import { AppLoggerService } from './core/my-logger/my-logger.service';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { setSqlDatetimeFormat } from './config/database.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    logger: false
+    logger: parseInt(process.env.APP_LOG) === 1 ? true : false
   });
-
-  loadConfig();
+  
+  setSqlDatetimeFormat();
 
   app.use(session({
     secret: APP_SECRET,
@@ -32,6 +32,6 @@ async function bootstrap() {
   /* Have to import MyLoggerModule, so NestJs create instance  */
   /* app.useLogger(app.get(MyLoggerService)); */
 
-  await app.listen(3000);
+  await app.listen(process.env.APP_PORT);
 }
 bootstrap();
