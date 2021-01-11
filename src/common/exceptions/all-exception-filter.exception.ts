@@ -8,6 +8,7 @@ import {
 import { ErrorResponse } from 'src/common/pipes/validation.pipe';
 import { AppLoggerService } from 'src/core/my-logger/my-logger.service';
 import { ApiException } from './api-exception.exception';
+import { nanoid } from 'nanoid'
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -24,7 +25,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             ? exception.getStatus()
             : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        let error = [] as ErrorResponse[]  ;
+        let error = [] as ErrorResponse[];
         if (exception instanceof ApiException) {
             error = exception.getErrorResponse();
         } else {
@@ -35,12 +36,14 @@ export class AllExceptionsFilter implements ExceptionFilter {
             });
         }
         
-        this.logger.error(exception);
+        const logId = nanoid();
+        this.logger.error(`${JSON.stringify(error)} - ${exception.stack} - [LOG ID]: ${logId}`);
 
         response.status(status).json({
             statusCode: status,
             timestamp: new Date().toISOString(),
             path: request.url,
+            logId: logId,
             error: error
         });
     }

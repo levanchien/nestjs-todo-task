@@ -72,7 +72,7 @@ export class AppLoggerService implements LoggerService {
     });
 
     error(exception: any) {        
-        this.logger.log('error', `${JSON.stringify(exception.message)} - ${exception.stack}`);
+        this.logger.log('error', `${exception}`);
     }
 
     log(message: any, context?: string): void {

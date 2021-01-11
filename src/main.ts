@@ -23,14 +23,14 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  
+  app.useLogger(AppLoggerService.getInstance());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
 
   /* Dependencies Injection */
   /* Have to import MyLoggerModule, so NestJs create instance  */
   /* app.useLogger(app.get(MyLoggerService)); */
-
-  app.useLogger(AppLoggerService.getInstance());
-  app.useGlobalInterceptors(new LoggingInterceptor());
 
   await app.listen(3000);
 }
