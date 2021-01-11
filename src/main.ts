@@ -6,6 +6,7 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { APP_SECRET } from './constants/constants';
 import { AppLoggerService } from './core/my-logger/my-logger.service';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -29,6 +30,7 @@ async function bootstrap() {
   /* app.useLogger(app.get(MyLoggerService)); */
 
   app.useLogger(AppLoggerService.getInstance());
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   await app.listen(3000);
 }

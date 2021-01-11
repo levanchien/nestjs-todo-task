@@ -3,54 +3,88 @@ import * as winston from "winston";
 import * as moment from 'moment';
 
 const { timestamp } = winston.format;
+const levelFilter = (level: string) =>
+    winston.format((info, opts) => {        
+        if (info.level != level) { return false; }
+        return info;
+})();
+const format = winston.format.combine(
+    timestamp({
+        format: 'DD-MM-YYYY HH:mm:ss'
+    }),
+    winston.format.printf(({ level, message, timestamp }) => {
+        return `[${timestamp}] - [${level.toUpperCase()}]: ${message}`;
+    })
+);
+const logLevels = {
+    error: 0, 
+    info: 1, 
+    http: 2,
+    event: 3,
+}
 
 @Injectable()
 export class AppLoggerService implements LoggerService {
 
     private static instance;
 
-    private format = winston.format.printf(({ level, message, timestamp }) => {
-        return `[${timestamp}] - [${level.toUpperCase()}]: ${message}`;
-    });
-
     private readonly logger = winston.createLogger({
-        level: 'http',
-        format: winston.format.combine(
-            timestamp({
-                format: 'DD-MM-YYYY HH:mm:ss'
-            }),
-            this.format
-        ),
+        levels: logLevels,
         transports: [
             new winston.transports.Console(),
             new winston.transports.File({
-                filename: `app-${moment().format('DD-MM-YYYY')}.log`,
+                filename: `logs/app-${moment().format('DD-MM-YYYY')}.log`,
                 level: 'info',
-                maxsize: 10000000
+                maxsize: 1000000,
+                format: winston.format.combine(
+                    levelFilter('info'),
+                    format
+                )
             }),
             new winston.transports.File({
-                filename: `http-${moment().format('DD-MM-YYYY')}.log`,
+                filename: `logs/http-${moment().format('DD-MM-YYYY')}.log`,
                 level: 'http',
-                maxsize: 10000000
+                maxsize: 1000000,
+                format: winston.format.combine(
+                    levelFilter('http'),
+                    format
+                )
             }),
             new winston.transports.File({
-                filename: `error-${moment().format('DD-MM-YYYY')}.log`,
+                filename: `logs/error-${moment().format('DD-MM-YYYY')}.log`,
                 level: 'error',
-                maxsize: 10000000
+                maxsize: 1000000,
+                format: winston.format.combine(
+                    levelFilter('error'),
+                    format
+                )
+            }),
+            new winston.transports.File({
+                filename: `logs/event-${moment().format('DD-MM-YYYY')}.log`,
+                level: 'event',
+                maxsize: 1000000,
+                format: winston.format.combine(
+                    levelFilter('event'),
+                    format
+                )
             })
         ]
     });
 
     error(exception: any) {        
-        this.logger.error(`${JSON.stringify(exception.message)} - ${exception.stack}`);
+        this.logger.log('error', `${JSON.stringify(exception.message)} - ${exception.stack}`);
     }
 
     log(message: any, context?: string): void {
-        this.logger.info(message);
+        this.logger.log('info', message);
     };
 
     http(message) {
-        this.logger.http(message);
+        this.logger.log('http', message);
+    }
+
+    event(message) {
+        this.logger.log('event', message);
     }
 
     warn(message: any, context?: string) { }
@@ -59,7 +93,7 @@ export class AppLoggerService implements LoggerService {
     
     verbose?(message: any, context?: string) { }
 
-    static getInstance() {
+    static getInstance(): AppLoggerService {
         if (!this.instance) {
             this.instance = new AppLoggerService();
         }
