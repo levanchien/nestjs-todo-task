@@ -40,13 +40,17 @@ export class UsersService {
 
     findAll() {
         return this.usersRepository.findAll({
-            attributes: ['id', 'email', 'firstName', 'lastName', 'dateCreated']
+            attributes: {
+                exclude: ['password']
+            }
         });
     }
 
     findByToken(token: string) {
         return this.usersRepository.findOne({
-            attributes: ['id', 'email', 'firstName', 'lastName', 'dateCreated'],
+            attributes: {
+                exclude: ['password']
+            },
             where: {
                 apiToken: token
             }

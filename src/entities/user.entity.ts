@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 const bcrypt = require('bcrypt');
 
@@ -5,7 +6,7 @@ const bcrypt = require('bcrypt');
     tableName: 'Users'
 })
 export class UserEntity extends Model<UserEntity> {
-    
+
     @Column({
         autoIncrement: true,
         type: DataType.INTEGER,
@@ -16,6 +17,7 @@ export class UserEntity extends Model<UserEntity> {
     @Column({ type: DataType.STRING })
     email: string;
 
+    @Exclude()
     @Column({  type: DataType.STRING })
     password: string;
 
@@ -30,6 +32,9 @@ export class UserEntity extends Model<UserEntity> {
     
     @Column({ type: DataType.STRING })
     apiToken: string;
+
+    @Column({ type: DataType.INTEGER })
+    role: number;
 
     static hashPassword(rawPassword) {
         const saltRounds = 10;

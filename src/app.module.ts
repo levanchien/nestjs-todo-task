@@ -10,7 +10,9 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [dbConfiguration]
+    }),
     SequelizeModule.forRoot(dbConfiguration()),
     UsersModule,
     AuthModule,

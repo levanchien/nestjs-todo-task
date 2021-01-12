@@ -2,6 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common'; import { JwtService } f
 import { ApiException } from 'src/common/exceptions/api-exception.exception';
 import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
 import { UsersService } from 'src/core/users/users.service';
+import { User } from '../users/interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -35,8 +36,8 @@ export class AuthService {
         return findUser;
     }
 
-    async generateJwt(user) {
-        const payload = { username: user.email, sub: user.id };
+    async generateJwt(user: User) {
+        const payload = { username: user.email, sub: user.id , role: user.role};
         
         return {
             access_token: this.jwtService.sign(payload)
