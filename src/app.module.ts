@@ -7,6 +7,7 @@ import { AuthModule } from './core/auth/auth.module';
 import {dbConfiguration}  from './config/database.config';
 import { TaskModule } from './core/task/task.module';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
       load: [dbConfiguration]
     }),
     SequelizeModule.forRoot(dbConfiguration()),
+    ScheduleModule.forRoot(),
     UsersModule,
     AuthModule,
     TaskModule

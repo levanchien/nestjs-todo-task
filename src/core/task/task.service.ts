@@ -8,9 +8,13 @@ import { User } from 'src/core/users/interfaces/user.interface';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TaskStatus } from './interfaces/task.interface';
+import { Cron } from '@nestjs/schedule';
+import { AppLoggerService } from '../my-logger/my-logger.service';
 
 @Injectable()
 export class TaskService {
+
+    private readonly logger = AppLoggerService.getInstance();
 
     constructor(
         @InjectModel(TaskEntity)
@@ -125,6 +129,21 @@ export class TaskService {
             raw: true,
             mapToModel: true
         });
+    }
+
+    @Cron('* 10 * * * *')
+    async taskStatusCounter() {
+        const tasksOpen = await this.countTasksByStatus(TaskStatus.OPEN);
+        this.logger.schedule('TOTAL TASKS OPEN: ' + tasksOpen);
+    }
+
+    countTasksByStatus(status: TaskStatus) {
+        return this.TaskRepository.count({
+            col: 'status',
+            where: {
+                status: status
+            }
+        })
     }
 
 }

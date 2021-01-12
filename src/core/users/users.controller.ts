@@ -11,7 +11,6 @@ import { Role } from 'src/common/interfaces/role';
 export class UsersController {
 
     constructor(private usersService: UsersService) {}
-    
 
     @SerialzierKeys('password')
     @UseInterceptors(SerialzierInterceptor)

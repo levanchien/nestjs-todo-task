@@ -21,6 +21,7 @@ const logLevels = {
     info: 1, 
     http: 2,
     event: 3,
+    schedule: 4
 }
 
 @Injectable()
@@ -67,6 +68,15 @@ export class AppLoggerService implements LoggerService {
                     levelFilter('event'),
                     format
                 )
+            }),
+            new winston.transports.File({
+                filename: `logs/schedule-${moment().format('DD-MM-YYYY')}.log`,
+                level: 'schedule',
+                maxsize: 1000000,
+                format: winston.format.combine(
+                    levelFilter('schedule'),
+                    format
+                )
             })
         ]
     });
@@ -85,6 +95,10 @@ export class AppLoggerService implements LoggerService {
 
     event(message) {
         this.logger.log('event', message);
+    }
+
+    schedule(message) {
+        this.logger.log('schedule', message);
     }
 
     warn(message: any, context?: string) { }
