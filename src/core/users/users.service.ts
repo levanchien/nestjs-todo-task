@@ -16,10 +16,11 @@ export class UsersService {
             
     }
 
-    create(createUserDto: CreateUserDto) {
+    async create(createUserDto: CreateUserDto) {
         createUserDto.password = UserEntity.hashPassword(createUserDto.password);
         createUserDto['dateCreated'] = new Date();
-        return this.usersRepository.create(createUserDto);
+        const newUser = await this.usersRepository.create(createUserDto);
+        return newUser;
     }
 
     findOneById(id: number) {

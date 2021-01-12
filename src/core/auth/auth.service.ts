@@ -1,15 +1,18 @@
-import { HttpStatus, Injectable } from '@nestjs/common'; import { JwtService } from '@nestjs/jwt';
+import { HttpStatus, Injectable } from '@nestjs/common';import { EventEmitter2 } from '@nestjs/event-emitter';
+ import { JwtService } from '@nestjs/jwt';
 import { ApiException } from 'src/common/exceptions/api-exception.exception';
 import { CreateUserDto } from 'src/core/users/dto/create-user.dto';
 import { UsersService } from 'src/core/users/users.service';
 import { User } from '../users/interfaces/user.interface';
+import { AUTH_EVENTS } from './auth.event';
 
 @Injectable()
 export class AuthService {
 
     constructor(
         private usersService: UsersService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private eventEmitter: EventEmitter2
     ) { }
 
     async validate(email: string, password: string) {
@@ -50,6 +53,8 @@ export class AuthService {
             throw new ApiException({ property: 'email', value: createUserDto.email, messages: ['Email is already exists'] }, HttpStatus.BAD_REQUEST);
         }
         const newUser = await this.usersService.create(createUserDto);
+
+        this.eventEmitter.emit(AUTH_EVENTS.ON_USER_REGISTERED, newUser);
 
         return newUser;
     }

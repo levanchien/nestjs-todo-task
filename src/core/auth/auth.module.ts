@@ -9,6 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JWT } from 'src/constants/constants';
 import { JwtStategy } from './jwt.strategy';
 import { ApiTokenStategy } from './api-token.strategy';
+import { AuthEvent } from './auth.event';
 
 @Module({
   providers: [
@@ -16,7 +17,8 @@ import { ApiTokenStategy } from './api-token.strategy';
     LocalStrategy,
     SessionSerializer,
     JwtStategy,
-    ApiTokenStategy
+    ApiTokenStategy,
+    AuthEvent
   ],
   controllers: [AuthController],
   imports: [
