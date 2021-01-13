@@ -7,6 +7,7 @@ import { APP_SECRET } from './constants/constants';
 import { AppLoggerService } from './core/my-logger/my-logger.service';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { setSqlDatetimeFormat } from './config/database.config';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -22,6 +23,7 @@ async function bootstrap() {
   }));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(cookieParser());
 
   
   app.useLogger(AppLoggerService.getInstance());
